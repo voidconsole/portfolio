@@ -3,99 +3,28 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Welcome</title>
-        <style>
-		@keyframes wiggle {
-		    0%, 100% { transform: translateY(-10px); }
-		    50% { transform: translateY(10px); }
-		}
-            * {
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-            }
-            html,
-            body {
-                height: 100%;
-                background-color: black;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-            }
-            video {
-		z-index: 1;
-                position: absolute;
-                transform: translateY(-10px);
-                width: 50%;
-                object-fit: cover;
-                pointer-events: none;
-		transition: all 1s ease-in-out;
-            }
-	    #clicker {
-		z-index: 2;
-		position: absolute;
-		background-color: rgba(255, 255, 255, 0);
-	    }
-
-        </style>
+        <title>Fullscreen Video</title>
+	<link rel="stylesheet" href="main.css">
     </head>
     <body>
+        <div id="clicker"></div>
+        <video autoplay muted loop>
+            <source src="tva.mp4" type="video/mp4" />
 
-	    <div id="clicker"></div>
-	    <video autoplay muted loop>
-		    <source src="tva.mp4" type="video/mp4" />
-		
             Your browser does not support the video tag.
         </video>
+
+	<div id="scene-container"></div>
+</script>
+<script src="script.js"></script>
+<script type="importmap">
+	{
+		"imports": {
+			"three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+			"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+                }
+	}
+</script>
+<script type="module" src="blob.js"> </script>
     </body>
-    <script>
-	var clicker = document.getElementById("clicker")
-        var video = document.querySelector("video")
-	console.log(video.style.height)
-
-// Global variables at the top
-var videoPlayerTime;
-var videoPlayer;
-var videoStopped = false; // Add this flag
-
-// Start the interval control
-videoPlayer = setInterval(function() {
-	    console.log('run')
-    if (videoStopped) return; // Check the flag
-    
-    if (video.currentTime > 2.2 && video.currentTime < 2.4) {
-        video.pause();
-        videoPlayerTime = setTimeout(() => {
-            if (videoStopped) return; // Check the flag here too
-            video.play();
-        }, 2500);
-    }
-
-}, 200);
-function clearElements() {
-body = document.body;
-body.removeChild(clicker);
-body.removeChild(video);
-	
-}
-// Set up the clicker
-clicker.style.width = video.getBoundingClientRect().width * 0.15 + "px";
-clicker.style.height = video.getBoundingClientRect().height * 0.55 + "px";
-
-// Add event listener
-clicker.addEventListener("click", function() {
-    if (video.currentTime > 1.7 && video.currentTime < 3.7) {
-        videoStopped = true; // Set the flag
-        clearInterval(videoPlayer);
-        clearTimeout(videoPlayerTime);
-        video.pause();
-        video.style.transform = 'scale(20)';
-        video.style.filter = "blur(20px)";
-	video.style.opacity=0
-	setTimeout(clearElements, 1100)
-    }
-});
-
-
-    </script>
 </html>
